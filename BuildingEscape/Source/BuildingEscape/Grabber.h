@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/InputComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
 #include "Grabber.generated.h"
 
@@ -31,6 +32,8 @@ private:
 	//Players reach to objects in cm
 	UPROPERTY(EditAnywhere)
 	float reach = 100.f;
+
+	APlayerController* playerController;
 		
 	UPhysicsHandleComponent* physicsHandle = nullptr;
 	UInputComponent* inputComponent = nullptr;
@@ -47,5 +50,8 @@ private:
 	void SetupInputComponent();
 
 	//Return hit for first physics body in reach 
-	const FHitResult GetFirstPhysicsBodyInReach();
+	FHitResult GetFirstPhysicsBodyInReach() const;
+
+	//find player's total reach 
+	FTwoVectors GetLineTracePoints() const;
 };
