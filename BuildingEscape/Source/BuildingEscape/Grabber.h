@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Grabber.generated.h"
 
@@ -30,5 +31,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float reach = 100.f;
 		
+	UPhysicsHandleComponent* physicsHandle = nullptr;
 	
 };
