@@ -40,9 +40,14 @@ private:
 	float doorCloseDelay = 1.f;
 
 	float lastDoorOpenTime;
+	
+	UPROPERTY(EditAnywhere)
+	float triggerRequiredMass = 70.f;
 
 	AActor* actorThatOpens; //Pawn inherits from actor
 
 	AActor* owner; // Componnent owning door
+
+	float TotalMassOfActorsOnPlate() const; 
 	
 };
