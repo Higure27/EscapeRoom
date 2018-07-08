@@ -39,12 +39,33 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FRotator playerRotation; 
 	mainPlayer->GetPlayerViewPoint(OUT playerLocation, OUT playerRotation);
 
-	//TODO log out every tick 
-	UE_LOG(LogTemp, Warning, TEXT("PlayerLocation %s, Player Rotation %s")
-		,*playerLocation.ToString(),*playerRotation.ToString());
+	///Log out every tick 
+	/*UE_LOG(LogTemp, Warning, TEXT("PlayerLocation %s, Player Rotation %s")
+		,*playerLocation.ToString(),*playerRotation.ToString());*/
 
-	//Ray-cast out to reach distance 
 
-	//See what we hit 
+	FVector lineTraceEnd = playerLocation + playerRotation.Vector()*reach;
+	///Draw a red trace to visualize 
+	DrawDebugLine(GetWorld(), playerLocation, lineTraceEnd, FColor(255, 0, 0),NULL,NULL,NULL,10.f);
+
+	///Setup query parameters
+	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner());
+
+	///Line-trace (AKA Ray-cast) out to reach distance
+	FHitResult lineTraceHit;
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT lineTraceHit,
+		playerLocation,
+		lineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		traceParams);
+
+	///See what we hit
+	if (lineTraceHit.GetActor() != NULL)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hitting Actor named %s"),
+			*lineTraceHit.GetActor()->GetName());
+	}
+
 }
 
