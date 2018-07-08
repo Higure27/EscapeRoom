@@ -20,22 +20,30 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Find owning actor
+	owner = GetOwner();
+
+	//Find player pawn
 	actorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void UOpenDoor::OpenDoor()
 {
-	//Find owning actor
-	AActor* owner = GetOwner();
-	//Create rotator
-	FRotator newRotation = FRotator(0.f, -90.f, 0.f);
 	//Set the door rotation
-	owner->SetActorRotation(newRotation);
+	owner->SetActorRotation(FRotator(0.f, openAngle, 0.f));
 
 	//FString ownerRotation = owner->GetTransform().GetRotation().ToString();
 	//UE_LOG(LogTemp, Warning, TEXT("Door Rotation is at %s!"), *ownerRotation);
 }
 
+void UOpenDoor::CloseDoor()
+{
+	//Set the door rotation
+	owner->SetActorRotation(FRotator(0.f, 0.f, 0.f));
+
+	//FString ownerRotation = owner->GetTransform().GetRotation().ToString();
+	//UE_LOG(LogTemp, Warning, TEXT("Door Rotation is at %s!"), *ownerRotation);
+}
 
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -48,6 +56,13 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		//Open the door
 		OpenDoor();
+		lastDoorOpenTime = GetWorld()->GetTimeSeconds();
+	}
+
+	//check if it is time to close the door 
+	if (GetWorld()->GetTimeSeconds() -lastDoorOpenTime > doorCloseDelay)
+	{
+		CloseDoor();
 	}
 	
 }
