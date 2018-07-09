@@ -33,14 +33,6 @@ void UOpenDoor::BeginPlay()
 
 }
 
-void UOpenDoor::OpenDoor()
-{
-	//Set the door rotation
-	owner->SetActorRotation(FRotator(0.f, openAngle, 0.f));
-
-	//FString ownerRotation = owner->GetTransform().GetRotation().ToString();
-	//UE_LOG(LogTemp, Warning, TEXT("Door Rotation is at %s!"), *ownerRotation);
-}
 
 void UOpenDoor::CloseDoor()
 {
@@ -60,14 +52,14 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	if (TotalMassOfActorsOnPlate()>= triggerRequiredMass)
 	{
 		//Open the door
-		OpenDoor();
-		lastDoorOpenTime = GetWorld()->GetTimeSeconds();
+		onOpen.Broadcast();
 	}
-
+	else
 	//check if it is time to close the door 
-	if (GetWorld()->GetTimeSeconds() -lastDoorOpenTime > doorCloseDelay)
+	//if (GetWorld()->GetTimeSeconds() -lastDoorOpenTime > doorCloseDelay)
 	{
-		CloseDoor();
+		//Close Door
+		onClose.Broadcast();
 	}
 	
 }
