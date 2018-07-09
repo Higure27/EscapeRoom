@@ -33,7 +33,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float reach = 100.f;
 
-	APlayerController* playerController;
+	APlayerController* playerController =nullptr;
 		
 	UPhysicsHandleComponent* physicsHandle = nullptr;
 	UInputComponent* inputComponent = nullptr;

@@ -21,6 +21,11 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	playerController = GetWorld()->GetFirstPlayerController();
+	if (playerController == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find playerController"));
+		return;
+	}
 
 	FindPhysicsHandleComp();
 	
@@ -96,7 +101,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FTwoVectors playerReachStartandEnd = GetLineTracePoints();
 	
 	//Checking the physics handle is attached 
-	if (!physicsHandle) { return; }
+	if (physicsHandle == nullptr) { return; }
 	
 	//If an object is Grabbed
 	if (physicsHandle->GrabbedComponent)
