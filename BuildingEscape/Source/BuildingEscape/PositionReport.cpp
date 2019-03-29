@@ -25,6 +25,7 @@ void UPositionReport::BeginPlay()
 	//Other option
 	//FString objectPosY = FString::SanitizeFloat(GetOwner()->GetActorLocation().Y);
 	//FString objectPosZ = FString::SanitizeFloat(GetOwner()->GetActorLocation().Z);//"X = xPositon Y = yPosition";
+	//* in objectName and in objectPos is an UE operation overload to get to chars. 
 	UE_LOG(LogTemp, Warning, TEXT("%s is at %s!"), *objectName, *objectPos);
 	
 }

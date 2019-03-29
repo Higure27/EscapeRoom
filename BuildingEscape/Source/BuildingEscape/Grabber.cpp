@@ -88,8 +88,7 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grab released"));
-	//TODO release physics handle 
+	//release held object
 	physicsHandle->ReleaseComponent();
 }
 
@@ -97,8 +96,6 @@ void UGrabber::Release()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	FTwoVectors playerReachStartandEnd = GetLineTracePoints();
 	
 	//Checking the physics handle is attached 
 	if (physicsHandle == nullptr) { return; }
@@ -106,6 +103,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//If an object is Grabbed
 	if (physicsHandle->GrabbedComponent)
 	{
+		FTwoVectors playerReachStartandEnd = GetLineTracePoints();
 		//move the object that is attached
 		physicsHandle->SetTargetLocation(playerReachStartandEnd.v2);
 	}
